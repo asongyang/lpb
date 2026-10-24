@@ -353,8 +353,35 @@
     }
 
     #homeSection[hidden],
-    #summarySection[hidden] {
+    #summarySection[hidden],
+    #dailySection[hidden] {
       display: none;
+    }
+
+    .daily-report-form {
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .daily-report-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 16px;
+    }
+
+    .daily-report-status {
+      margin: 16px 0 0;
+      line-height: 1.7;
+    }
+
+    .daily-report-status.error {
+      color: #b3261e;
+    }
+
+    @media (max-width: 480px) {
+      .daily-report-fields {
+        grid-template-columns: 1fr;
+      }
     }
 
     .loading-overlay {
@@ -792,7 +819,10 @@
 
     <nav class="main-navigation" aria-label="Main navigation">
       <button type="button" id="homeNav" class="is-active" aria-current="page">
-        Home
+        ໜ້າຫຼັກ
+      </button>
+      <button type="button" id="dailyNav">
+        ບັນທຶກລາຍວັນ
       </button>
       <button type="button" id="summaryNav">
         ສະຫຼຸບ
@@ -813,22 +843,22 @@
             -- ເລືອກຄຣິດທະຈັກ --
           </option>
           <option value="CH-001">
-            ນະຄອນຫຼວງວຽງຈັນ (萬象 Vientiane) — CH-001
+            ນະຄອນຫຼວງວຽງຈັນ (萬象 Vientiane)
           </option>
           <option value="CH-002">
-            ຫຼວງພະບາງ (琅勃拉邦) — CH-002
+            ຫຼວງພະບາງ (琅勃拉邦)
           </option>
           <option value="CH-003">
-            ວັງວຽງ (萬榮) — CH-003
+            ວັງວຽງ (萬榮)
           </option>
           <option value="CH-004">
-            ປາກເຊ (巴色) — CH-004
+            ປາກເຊ (巴色)
           </option>
           <option value="CH-005">
-            ບົວລະພາ (博拉帕) — CH-005
+            ບົວລະພາ (博拉帕) 
           </option>
           <option value="CH-006">
-            ໂພນສະຫວັນ (豐沙灣) — CH-006
+            ໂພນສະຫວັນ (豐沙灣) 
           </option>
         </select>
       </div>
@@ -1075,12 +1105,101 @@
       </div>
     </section>
 
+    <section id="dailySection" class="summary-card" hidden>
+      <div class="summary-heading">
+        <h2>ບັນທຶກສະຖິຕິປະຈຳວັນ</h2>
+      </div>
+      <p class="summary-privacy-note">
+        ລາຍງານຊ້ຳວັນທີ ແລະຄຣິດຕະຈັກເດີມຈະແທນທີ່ລາຍງານກ່ອນໜ້າ.
+      </p>
+      <form id="dailyReportForm" class="daily-report-form">
+        <div class="daily-report-fields">
+          <div class="form-group">
+            <label for="reportDate">ວັນທີ <span class="required">*</span></label>
+            <input id="reportDate" name="reportDate" type="date" required>
+          </div>
+          <div class="form-group">
+            <label for="reportChurch">ຄຣິດຕະຈັກ <span class="required">*</span></label>
+            <select id="reportChurch" name="address" required>
+              <option value="" disabled selected>-- ເລືອກຄຣິດຕະຈັກ --</option>
+              <option value="CH-001">ນະຄອນຫຼວງວຽງຈັນ</option>
+              <option value="CH-002">ຫຼວງພະບາງ</option>
+              <option value="CH-003">ວັງວຽງ</option>
+              <option value="CH-004">ປາກເຊ</option>
+              <option value="CH-005">ບົວລະພາ</option>
+              <option value="CH-006">ໂພນສະຫວັນ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="readingPeople">ຄົນມາອ່ານໜັງສື (ຄົນ)</label>
+            <input id="readingPeople" name="readingPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="morningRevivalPeople">ຟື້ນຟູຍາມເຊົ້າ (ຄົນ)</label>
+            <input id="morningRevivalPeople" name="morningRevivalPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="groupMeetings">ປະຊຸມກຸ່ມ (ຄັ້ງ)</label>
+            <input id="groupMeetings" name="groupMeetings" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="groupPeople">ປະຊຸມກຸ່ມ (ຄົນ)</label>
+            <input id="groupPeople" name="groupPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="homeMeetings">ປະຊຸມບ້ານ (ຄັ້ງ)</label>
+            <input id="homeMeetings" name="homeMeetings" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="homePeople">ປະຊຸມບ້ານ (ຄົນ)</label>
+            <input id="homePeople" name="homePeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="prayerMeetings">ອະທິຖານ (ຄັ້ງ)</label>
+            <input id="prayerMeetings" name="prayerMeetings" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="prayerPeople">ອະທິຖານ (ຄົນ)</label>
+            <input id="prayerPeople" name="prayerPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="breadMeetings">ຫັກຂະໜົມປັງ (ຄັ້ງ)</label>
+            <input id="breadMeetings" name="breadMeetings" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="breadPeople">ຫັກຂະໜົມປັງ (ຄົນ)</label>
+            <input id="breadPeople" name="breadPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="bibleReadings">ອ່ານພະຄຳພີ (ຄັ້ງ)</label>
+            <input id="bibleReadings" name="bibleReadings" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="biblePeople">ອ່ານພະຄຳພີ (ຄົນ)</label>
+            <input id="biblePeople" name="biblePeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="baptismPeople">ຮັບບັບຕິສະມາ (ຄົນ)</label>
+            <input id="baptismPeople" name="baptismPeople" type="number" min="0" step="1" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="newPeopleBread">ພາຄົນໃໝ່ມາຫັກຂະໜົມປັງ (ຄົນ)</label>
+            <input id="newPeopleBread" name="newPeopleBread" type="number" min="0" step="1" value="0" required>
+          </div>
+        </div>
+        <div class="button-row">
+          <button type="submit" id="saveDailyReport">ບັນທຶກລາຍງານ</button>
+        </div>
+      </form>
+      <p id="dailyReportStatus" class="daily-report-status" role="status" aria-live="polite"></p>
+    </section>
+
   </main>
 
   <div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite" aria-hidden="true">
     <div class="loading-card">
       <div class="loading-spinner" aria-hidden="true"></div>
-      <p>ກຳລັງສົ່ງຂໍ້ມູນ...<br>ກະລຸນາລໍຖ້າ</p>
+      <p id="loadingMessage">ກຳລັງສົ່ງຂໍ້ມູນ...<br>ກະລຸນາລໍຖ້າ</p>
     </div>
   </div>
 
@@ -1098,7 +1217,7 @@
       <h2 id="successTitle" class="success-title">Success!</h2>
 
       <!-- Description -->
-      <p class="success-description">
+      <p id="successDescription" class="success-description">
         ບັນທຶກຂໍ້ມູນການລົງທະບຽນຂອງທ່ານສຳເລັດຮຽບຮ້ອຍແລ້ວ.
       </p>
 
@@ -1108,7 +1227,7 @@
       </button>
 
       <!-- Faint Subtext below -->
-      <p class="success-subtext">
+      <p id="successSubtext" class="success-subtext">
         ລະບົບໄດ້ບັນທຶກຂໍ້ມູນລົງ Google Sheets ຮຽບຮ້ອຍແລ້ວ
       </p>
     </div>
@@ -1117,7 +1236,7 @@
   <script>
     // URL ຂອງ Google Apps Script Web App
     const scriptURL =
-      "https://script.google.com/macros/s/AKfycby7YRoE7NmSH2Qx5ScbSOiI88Dam3yZSG9N5uUNrQ8vnk8Q9lqAGVH_xqfqfR2y0NjQ/exec";
+      "https://script.google.com/macros/s/AKfycbyn-VPfk6N8jNfRPIVlzud_2AF0Ng5auskmZ11rBOy604v14sTctLF2N-pSo3dbRmIK/exec";
 
     const form = document.getElementById("myForm");
     const message = document.getElementById("message");
@@ -1125,12 +1244,22 @@
     const imagePreview = document.getElementById("imagePreview");
     const imageError = document.getElementById("imageError");
     const loadingOverlay = document.getElementById("loadingOverlay");
+    const loadingMessage = document.getElementById("loadingMessage");
     const successModal = document.getElementById("successModal");
+    const successTitle = document.getElementById("successTitle");
+    const successDescription = document.getElementById("successDescription");
+    const successSubtext = document.getElementById("successSubtext");
     const closeSuccessModalBtn = document.getElementById("closeSuccessModal");
     const homeNav = document.getElementById("homeNav");
+    const dailyNav = document.getElementById("dailyNav");
     const summaryNav = document.getElementById("summaryNav");
     const homeSection = document.getElementById("homeSection");
+    const dailySection = document.getElementById("dailySection");
     const summarySection = document.getElementById("summarySection");
+    const dailyReportForm = document.getElementById("dailyReportForm");
+    const dailyReportStatus = document.getElementById("dailyReportStatus");
+    const saveDailyReportButton = document.getElementById("saveDailyReport");
+    const reportDateInput = document.getElementById("reportDate");
     const summaryStatus = document.getElementById("summaryStatus");
     const churchSummaryContainer = document.getElementById("churchSummary");
     const summaryTableContainer =
@@ -1142,23 +1271,36 @@
 
     function setActiveSection(section) {
       const showingSummary = section === "summary";
-      homeSection.hidden = showingSummary;
+      const showingDaily = section === "daily";
+      homeSection.hidden = showingSummary || showingDaily;
+      dailySection.hidden = !showingDaily;
       summarySection.hidden = !showingSummary;
-      homeNav.classList.toggle("is-active", !showingSummary);
+      homeNav.classList.toggle("is-active", !showingSummary && !showingDaily);
+      dailyNav.classList.toggle("is-active", showingDaily);
       summaryNav.classList.toggle("is-active", showingSummary);
 
       if (showingSummary) {
         summaryNav.setAttribute("aria-current", "page");
         homeNav.removeAttribute("aria-current");
+        dailyNav.removeAttribute("aria-current");
         if (!summaryLoaded) loadSummary();
+      } else if (showingDaily) {
+        dailyNav.setAttribute("aria-current", "page");
+        homeNav.removeAttribute("aria-current");
+        summaryNav.removeAttribute("aria-current");
       } else {
         homeNav.setAttribute("aria-current", "page");
+        dailyNav.removeAttribute("aria-current");
         summaryNav.removeAttribute("aria-current");
       }
     }
 
     homeNav.addEventListener("click", function () {
       setActiveSection("home");
+    });
+
+    dailyNav.addEventListener("click", function () {
+      setActiveSection("daily");
     });
 
     summaryNav.addEventListener("click", function () {
@@ -1196,7 +1338,7 @@
       churchSummaryContainer.hidden = churches.length === 0;
     }
 
-    function renderRegistrations(headers, rows, churches) {
+    function renderRegistrations(headers, rows) {
       summaryTableHead.replaceChildren();
       summaryTableBody.replaceChildren();
 
@@ -1211,14 +1353,9 @@
 
       rows.forEach(function (row) {
         const tableRow = document.createElement("tr");
-        row.forEach(function (value, index) {
+        row.forEach(function (value) {
           const cell = document.createElement("td");
-          const church = index === 2
-            ? churches.find(item => item.id === String(value))
-            : null;
-          cell.textContent = church
-            ? `${church.id} - ${church.name}`
-            : value == null ? "" : String(value);
+          cell.textContent = value == null ? "" : String(value);
           tableRow.appendChild(cell);
         });
         summaryTableBody.appendChild(tableRow);
@@ -1232,6 +1369,7 @@
       refreshSummaryButton.disabled = true;
       summaryTableContainer.hidden = true;
       setSummaryStatus("ກຳລັງໂຫຼດລາຍການ...", false);
+      setLoading(true, "ກຳລັງປະມວນຜົນລາຍການ... ກະລຸນາລໍຖ້າ");
 
       try {
         const response = await fetch(
@@ -1251,7 +1389,7 @@
         }
 
         renderChurchSummary(result.churchSummary);
-        renderRegistrations(result.headers, result.rows, result.churchSummary);
+        renderRegistrations(result.headers, result.rows);
         summaryLoaded = true;
       } catch (error) {
         console.error("Summary load error:", error);
@@ -1261,13 +1399,59 @@
         );
       } finally {
         refreshSummaryButton.disabled = false;
+        setLoading(false);
       }
     }
 
     refreshSummaryButton.addEventListener("click", loadSummary);
 
-    function openSuccessModal() {
+    const reportToday = new Date();
+    reportDateInput.value = [
+      reportToday.getFullYear(),
+      String(reportToday.getMonth() + 1).padStart(2, "0"),
+      String(reportToday.getDate()).padStart(2, "0")
+    ].join("-");
+
+    dailyReportForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const data = new URLSearchParams(new FormData(dailyReportForm));
+      data.set("action", "dailyReport");
+      saveDailyReportButton.disabled = true;
+      dailyReportStatus.className = "daily-report-status";
+      dailyReportStatus.textContent = "";
+      setLoading(true, "ກຳລັງບັນທຶກລາຍງານ... ກະລຸນາລໍຖ້າ");
+
+      try {
+        await fetch(scriptURL, {
+          method: "POST",
+          mode: "no-cors",
+          body: data
+        });
+
+        dailyReportForm.querySelectorAll('input[type="number"]').forEach(function (input) {
+          input.value = "0";
+        });
+        openSuccessModal(
+          "ບັນທຶກສຳເລັດ",
+          "ບັນທຶກລາຍງານປະຈຳວັນສຳເລັດແລ້ວ.",
+          "ລາຍງານຖືກສົ່ງໄປຍັງ Google Sheets ແລ້ວ."
+        );
+      } catch (error) {
+        console.error("Daily report save error:", error);
+        dailyReportStatus.classList.add("error");
+        dailyReportStatus.textContent =
+          "ບັນທຶກລາຍງານບໍ່ສຳເລັດ. ກະລຸນາກວດ Internet ແລະລອງໃໝ່.";
+      } finally {
+        saveDailyReportButton.disabled = false;
+        setLoading(false);
+      }
+    });
+
+    function openSuccessModal(title, description, subtext) {
       if (!successModal) return;
+      if (title) successTitle.textContent = title;
+      if (description) successDescription.textContent = description;
+      if (subtext) successSubtext.textContent = subtext;
       successModal.classList.add("is-active");
       document.body.style.overflow = "hidden";
     }
@@ -1278,7 +1462,8 @@
       document.body.style.overflow = "";
     }
 
-    function setLoading(loading) {
+    function setLoading(loading, message) {
+      if (message) loadingMessage.textContent = message;
       loadingOverlay.classList.toggle("is-active", loading);
       loadingOverlay.setAttribute("aria-hidden", String(!loading));
     }
@@ -1495,7 +1680,7 @@
       submitButton.textContent = "ກຳລັງສົ່ງ...";
       message.className = "info";
       message.textContent = "ກຳລັງສົ່ງຂໍ້ມູນ...";
-      setLoading(true);
+      setLoading(true, "ກຳລັງສົ່ງຂໍ້ມູນ... ກະລຸນາລໍຖ້າ");
 
       try {
         await fetch(scriptURL, {
